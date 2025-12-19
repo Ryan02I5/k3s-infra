@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  namespace: dev
+  labels:
+    app: hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      nodeSelector:
+        node-role: core
+      containers:
+        - name: hello
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:                 # ✅ 新增：把卷挂到容器目录
+            - name: web-data
+              mountPath: /usr/share/nginx/html
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:                          # ✅ 新增：声明这个卷来自 PVC
+        - name: web-data
+          persistentVolumeClaim:
+            claimName: hello-pvc

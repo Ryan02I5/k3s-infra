@@ -114,6 +114,3 @@ k3s-infra/
 - 不直接在服务器节点上手动修改配置
 - 集群结构稳定后，将为相关成员提供 dev / sandbox 的 kubeconfig
 
-
-⸻
-
